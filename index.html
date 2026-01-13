@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>she.store_dz</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f9dbe3;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.card{
+  background:#fff;
+  width:340px;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+h2{
+  text-align:center;
+  color:#e91e63;
+  margin-bottom:20px;
+}
+
+label{
+  font-size:14px;
+  display:block;
+  margin-top:12px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
+.result{
+  margin-top:20px;
+  background:#f8b6cc;
+  padding:12px;
+  border-radius:12px;
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+}
+
+.meaning{
+  margin-top:6px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.footer{
+  text-align:center;
+  margin-top:12px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>مرحباً بكِ في she.store_dz</h2>
+
+  <label>عدد المنتجات</label>
+  <input type="number" id="products" value="1" min="1">
+
+  <label>عدد القطع (للذكر فقط)</label>
+  <input type="number" id="pieces" value="1" min="1">
+
+  <label>السعر الإجمالي بالدولار ($)</label>
+  <input type="number" id="usd" value="0" min="0" step="0.01">
+
+  <div class="result" id="finalPrice">
+    السعر النهائي: 0 دج
+  </div>
+
+  <div class="meaning" id="meaning">
+    يعني: 0 ألف دج
+  </div>
+
+  <div class="footer">
+    ❤️ شكراً يا سُكرة لزيارتك
+  </div>
+</div>
+
+<script>
+function calculate(){
+  const products = Number(document.getElementById("products").value);
+  const usd = Number(document.getElementById("usd").value);
+
+  const dollarRate = 270;      // سعر الدولار
+  const profitPerProduct = 150; // ربحك على كل منتج
+
+  const priceDZD = (usd * dollarRate) + (products * profitPerProduct);
+
+  document.getElementById("finalPrice").innerText =
+    "السعر النهائي: " + priceDZD + " دج";
+
+  const thousands = Math.floor(priceDZD / 10);
+  document.getElementById("meaning").innerText =
+    "يعني: " + thousands + " ألف دج";
+}
+
+document.querySelectorAll("input").forEach(input=>{
+  input.addEventListener("input", calculate);
+});
+
+calculate();
+</script>
+
+</body>
+</html>
