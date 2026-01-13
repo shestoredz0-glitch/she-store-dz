@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Admin - she.store.dz</title>
+<style>
+body{
+  font-family:Arial;
+  background:#222;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+.card{
+  background:#333;
+  padding:25px;
+  border-radius:10px;
+  width:320px;
+}
+input,button{
+  width:100%;
+  padding:8px;
+  margin-top:10px;
+}
+button{
+  background:#e91e63;
+  border:none;
+  color:#fff;
+}
+.result{
+  margin-top:15px;
+  background:#111;
+  padding:10px;
+}
+</style>
+</head>
+
+<body>
+<div class="card" id="login">
+  <h3>Admin Login</h3>
+  <input type="password" id="pass" placeholder="Mot de passe">
+  <button onclick="login()">Entrer</button>
+</div>
+
+<div class="card" id="admin" style="display:none">
+  <h3>Calcul du bénéfice</h3>
+
+  <input type="number" id="products" placeholder="Nombre de produits">
+  <input type="number" id="pieces" placeholder="Nombre de pièces">
+  <input type="number" id="usd" placeholder="Prix en $">
+
+  <button onclick="calcProfit()">Calculer</button>
+
+  <div class="result" id="profit">—</div>
+</div>
+
+<script>
+function login(){
+  if(document.getElementById("pass").value === "safiya@2002"){
+    document.getElementById("login").style.display="none";
+    document.getElementById("admin").style.display="block";
+  }else{
+    alert("Mot de passe incorrect");
+  }
+}
+
+function calcProfit(){
+  let products = parseInt(document.getElementById("products").value);
+  let pieces   = parseInt(document.getElementById("pieces").value);
+  let usd      = parseFloat(document.getElementById("usd").value);
+
+  let cost = usd * 250;
+  let sell = usd * 260;
+  let profitDollar = sell - cost;
+
+  let profitProducts = products * 100;
+  let extraPieces = Math.max(0, pieces - products);
+  let profitPieces = extraPieces * 50;
+
+  let totalProfit = profitDollar + profitProducts + profitPieces;
+
+  document.getElementById("profit").innerHTML =
+    "Bénéfice total : " + totalProfit.toFixed(0) + " DA";
+}
+</script>
+</body>
+</html>
