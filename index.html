@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>she.store_dz</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#fde4ec;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+    }
+    .card{
+      background:#fff;
+      padding:25px;
+      border-radius:15px;
+      width:340px;
+      box-shadow:0 10px 25px rgba(0,0,0,.15);
+      text-align:center;
+    }
+    h2{
+      color:#e91e63;
+      margin-bottom:20px;
+    }
+    label{
+      display:block;
+      text-align:right;
+      margin-top:10px;
+      font-size:14px;
+    }
+    input{
+      width:100%;
+      padding:10px;
+      margin-top:5px;
+      border-radius:10px;
+      border:1px solid #ccc;
+      font-size:15px;
+    }
+    .result{
+      margin-top:15px;
+      padding:12px;
+      border-radius:10px;
+      background:#f8bbd0;
+      font-weight:bold;
+      font-size:16px;
+    }
+    .thousands{
+      margin-top:8px;
+      padding:10px;
+      border-radius:10px;
+      background:#ffe6ee;
+      font-size:18px;
+      font-weight:bold;
+      color:#c2185b;
+    }
+    .thanks{
+      margin-top:15px;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>مرحبا بكِ في she.store_dz</h2>
+
+  <label>عدد المنتجات</label>
+  <input type="number" id="products" value="1" min="1">
+
+  <label>عدد القطع (للذكر فقط)</label>
+  <input type="number" id="pieces" value="1" min="1">
+
+  <label>السعر الإجمالي بالدولار ($)</label>
+  <input type="number" id="usd" step="0.01">
+
+  <div class="result" id="finalPrice">—</div>
+  <div class="thousands" id="priceWords">—</div>
+
+  <div class="thanks">شكراّ يا سُكرة لزيارتك ❤️</div>
+</div>
+
+<script>
+function calculate(){
+  const rate = 270;          // سعر الدولار
+  const profitPerProduct = 150; // ربحك على كل منتج
+
+  let products = Number(document.getElementById("products").value);
+  let usd = Number(document.getElementById("usd").value);
+
+  if(products <= 0 || usd <= 0){
+    document.getElementById("finalPrice").innerText = "—";
+    document.getElementById("priceWords").innerText = "—";
+    return;
+  }
+
+  let priceDZD = (usd * rate) + (products * profitPerProduct);
+
+  // التحويل للألف (بدون فواصل ولا نقاط)
+  let thousands = Math.floor(priceDZD / 10);
+
+  document.getElementById("finalPrice").innerText =
+    "السعر النهائي: " + priceDZD + " دج";
+
+  document.getElementById("priceWords").innerText =
+    "يعني: " + thousands + " ألف دج";
+}
+
+// حساب تلقائي
+document.querySelectorAll("input").forEach(input=>{
+  input.addEventListener("input", calculate);
+});
+</script>
+
+</body>
+</html>
