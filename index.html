@@ -6,65 +6,54 @@
 
 <style>
 body{
-  margin:0;
-  font-family: Arial, sans-serif;
-  background:#f9dbe3;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#fde2ea;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
-
 .card{
-  background:#fff;
-  width:340px;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    width:340px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    text-align:center;
 }
-
 h2{
-  text-align:center;
-  color:#e91e63;
-  margin-bottom:20px;
+    color:#e91e63;
+    margin-bottom:20px;
 }
-
 label{
-  font-size:14px;
-  display:block;
-  margin-top:12px;
+    display:block;
+    text-align:right;
+    margin-top:10px;
+    font-size:14px;
 }
-
 input{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
 }
-
 .result{
-  margin-top:20px;
-  background:#f8b6cc;
-  padding:12px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:bold;
-  font-size:18px;
+    background:#f8b6cc;
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    font-weight:bold;
 }
-
-.meaning{
-  margin-top:6px;
-  text-align:center;
-  font-size:18px;
-  font-weight:bold;
+.small{
+    margin-top:5px;
+    font-size:15px;
 }
-
 .footer{
-  text-align:center;
-  margin-top:12px;
-  font-size:14px;
+    margin-top:15px;
+    font-size:14px;
 }
 </style>
 </head>
@@ -72,50 +61,48 @@ input{
 <body>
 
 <div class="card">
-  <h2>مرحباً بكِ في she.store_dz</h2>
+    <h2>مرحباً بكِ في she.store_dz</h2>
 
-  <label>عدد المنتجات</label>
-  <input type="number" id="products" value="1" min="1">
+    <label>عدد المنتج</label>
+    <input type="number" id="products" value="1" min="1">
 
-  <label>عدد القطع (للذكر فقط)</label>
-  <input type="number" id="pieces" value="1" min="1">
+    <label>عدد القطع </label>
+    <input type="number" id="pieces" value="1" min="1">
 
-  <label>السعر الإجمالي بالدولار ($)</label>
-  <input type="number" id="usd" value="0" min="0" step="0.01">
+    <label>السعر الإجمالي بالدولار ($)</label>
+    <input type="number" id="usd" value="0" min="0" step="any">
 
-  <div class="result" id="finalPrice">
-    السعر النهائي: 0 دج
-  </div>
+    <div class="result">
+        السعر النهائي: <span id="final">0</span> دج
+    </div>
 
-  <div class="meaning" id="meaning">
-    يعني: 0 ألف دج
-  </div>
+    <div class="small">
+        يعني: <span id="alf">0</span> ألف دج
+    </div>
 
-  <div class="footer">
-    ❤️ شكراً يا سُكرة لزيارتك
-  </div>
+    <div class="footer">
+        شكراً يا سُكرة لزيارتك ودِمتي مُتألقة 💕
+    </div>
 </div>
 
 <script>
 function calculate(){
-  const products = Number(document.getElementById("products").value);
-  const usd = Number(document.getElementById("usd").value);
+    let products = Number(document.getElementById("products").value);
+    let usd = Number(document.getElementById("usd").value);
 
-  const dollarRate = 270;      // سعر الدولار
-  const profitPerProduct = 150; // ربحك على كل منتج
+    let dollarRate = 270;
+    let profitPerProduct = 150;
 
-  const priceDZD = (usd * dollarRate) + (products * profitPerProduct);
+    let totalDZD = (usd * dollarRate) + (products * profitPerProduct);
 
-  document.getElementById("finalPrice").innerText =
-    "السعر النهائي: " + priceDZD + " دج";
+    document.getElementById("final").innerText = totalDZD;
 
-  const thousands = Math.floor(priceDZD / 10);
-  document.getElementById("meaning").innerText =
-    "يعني: " + thousands + " ألف دج";
+    let alf = Math.floor(totalDZD / 10);
+    document.getElementById("alf").innerText = alf;
 }
 
 document.querySelectorAll("input").forEach(input=>{
-  input.addEventListener("input", calculate);
+    input.addEventListener("input", calculate);
 });
 
 calculate();
