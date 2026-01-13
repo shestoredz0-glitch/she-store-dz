@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>she.store.dz - Calculateur</title>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#fde4ef;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+.card{
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  width:340px;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+h2{
+  text-align:center;
+  color:#e91e63;
+}
+label{
+  display:block;
+  margin-top:10px;
+}
+input{
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+}
+button{
+  margin-top:15px;
+  width:100%;
+  padding:10px;
+  background:#e91e63;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+}
+.result{
+  margin-top:15px;
+  background:#f8bbd0;
+  padding:10px;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+}
+small{
+  display:block;
+  margin-top:15px;
+  text-align:center;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h2>Bienvenue chez she.store.dz</h2>
+
+  <label>Nombre de produits</label>
+  <input type="number" id="products" value="1" min="1">
+
+  <label>Nombre de pièces (total)</label>
+  <input type="number" id="pieces" value="1" min="1">
+
+  <label>Prix total en $</label>
+  <input type="number" id="usd" step="0.01">
+
+  <button onclick="calc()">Calculer</button>
+
+  <div class="result" id="result">—</div>
+
+  <small>Merci pour votre visite 💗</small>
+</div>
+
+<script>
+function calc(){
+  let products = parseInt(document.getElementById("products").value);
+  let pieces   = parseInt(document.getElementById("pieces").value);
+  let usd      = parseFloat(document.getElementById("usd").value);
+
+  if(isNaN(usd)){ alert("Entrez le prix en dollars"); return; }
+
+  let dz = usd * 260;
+  let profitProducts = products * 100;
+  let extraPieces = Math.max(0, pieces - products);
+  let profitPieces = extraPieces * 50;
+
+  let total = dz + profitProducts + profitPieces;
+
+  document.getElementById("result").innerHTML =
+    "Prix final : " + total.toFixed(0) + " DA";
+}
+</script>
+</body>
+</html>
