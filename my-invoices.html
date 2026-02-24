@@ -2,142 +2,175 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>نظام فواتير She.Store_DZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفواتير - She.Store_DZ</title>
     <style>
-        @page { size: A4; margin: 5mm; }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            padding: 20px;
-        }
-        /* حاوية الورقة A4 */
+        @page { size: A4; margin: 0; }
+        body { font-family: 'Arial', sans-serif; background: #eee; margin: 0; padding: 20px; }
+        
         .page-a4 {
             width: 210mm;
+            min-height: 297mm;
             background: white;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: repeat(3, 1fr);
-            gap: 10px;
-            padding: 10px;
+            gap: 2mm;
+            padding: 5mm;
             box-sizing: border-box;
         }
-        /* تصميم الفاتورة الواحدة */
+
         .label-card {
             border: 2px solid #000;
-            padding: 10px;
             display: flex;
             flex-direction: column;
-            height: 90mm; /* لضمان تناسق 6 في الصفحة */
+            padding: 0;
+            height: 90mm;
             box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
         }
+
         .header {
             display: flex;
             justify-content: bween;
-            border-bottom: 2px solid #000;
-            padding-bottom: 5px;
             align-items: center;
-        }
-        .store-info { font-weight: bold; font-size: 18px; }
-        .livraison-text { text-align: left; font-weight: bold; font-size: 16px; }
-        
-        .tracking-section {
-            text-align: center;
             border-bottom: 2px solid #000;
-            padding: 5px 0;
-        }
-        .tracking-label { font-size: 12px; font-weight: bold; }
-        .barcode-placeholder {
-            height: 40px;
-            background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 4px);
-            margin: 5px 0;
+            padding: 5px 10px;
         }
 
-        .main-content {
+        .store-name { font-weight: bold; font-size: 20px; }
+        .delivery-type { text-align: left; font-size: 14px; font-weight: bold; }
+
+        .tracking-box {
+            border-bottom: 2px solid #000;
+            text-align: center;
+            padding: 5px;
+        }
+        .barcode-line {
+            height: 35px;
+            background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 5px);
+            margin: 3px 0;
+        }
+
+        .middle-section {
             display: flex;
             flex-grow: 1;
             border-bottom: 2px solid #000;
         }
-        .customer-details {
+
+        .customer-info {
             flex: 2;
-            padding: 5px;
+            padding: 10px;
             border-left: 2px solid #000;
         }
-        .msila-box {
+
+        .city-box {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
         }
-        .big-number { font-size: 45px; font-weight: bold; line-height: 1; }
-        .city-name { font-size: 18px; font-weight: bold; border-top: 2px solid #000; width: 100%; padding-top: 5px; }
 
-        .field { margin-bottom: 8px; font-size: 14px; }
-        .field span { font-weight: bold; }
-        .editable {
+        .wilaya-code { font-size: 50px; font-weight: bold; line-height: 1; }
+        .wilaya-name { font-size: 18px; font-weight: bold; border-top: 2px solid #000; width: 100%; text-align: center; padding-top: 5px; }
+
+        .field { margin-bottom: 10px; font-size: 15px; }
+        .field b { color: #000; }
+        .input-area {
+            border-bottom: 1px solid #000;
             display: inline-block;
-            min-width: 50px;
-            border-bottom: 1px solid #ccc;
+            min-width: 120px;
             outline: none;
+            cursor: text;
         }
 
-        .total-section {
+        .total-area {
             display: flex;
             justify-content: bween;
             align-items: center;
-            padding: 5px;
+            padding: 8px 10px;
             font-weight: bold;
         }
-        .total-box { border: 2px solid #000; padding: 5px 15px; font-size: 18px; }
+        .price-tag { border: 2px solid #000; padding: 5px 15px; font-size: 18px; }
 
-        .footer-note {
+        .footer {
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
-            padding-top: 5px;
+            padding: 5px;
+            background: #f9f9f9;
         }
 
-        /* تنسيق الطباعة */
-        @media print {
-            body { background: none; padding: 0; }
-            .no-print { display: none; }
-            .page-a4 { border: none; box-shadow: none; margin: 0; }
-        }
-        
+        /* زر التحميل */
         .no-print {
             position: fixed;
             top: 20px;
-            right: 20px;
-            background: #27ae60;
+            left: 20px;
+            background: #000;
             color: white;
-            padding: 15px 25px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            z-index: 100;
+            z-index: 9999;
+            font-weight: bold;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; background: white; }
+            .page-a4 { box-shadow: none; margin: 0; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <button class="no-print" onclick="window.print()">تحميل الصفحة PDF</button>
+<button class="no-print" onclick="window.print()">تحميل PDF للطباعة</button>
 
-    <div class="page-a4">
-        <script>
-            for (let i = 0; i < 6; i++) {
-                document.write(`
-                <div class="label-card">
-                    <div class="header">
-                        <div class="store-info">she.store_dz</div>
-                        <div class="livraison-text">Livraison<br>STOP DESK</div>
-                    </div>
+<div class="page-a4" id="labelsContainer">
+    <script>
+        const cardHTML = `
+        <div class="label-card">
+            <div class="header">
+                <div class="store-name">she.store_dz</div>
+                <div class="delivery-type">Livraison<br>STOP DESK</div>
+            </div>
 
-                    <div class="tracking-section">
-                        <div class="tracking-label">TRACKING : <span class="editable" contenteditable="true">ECFTPQ00000000</span>
+            <div class="tracking-box">
+                <div style="font-size: 11px;">TRACKING: <span contenteditable="true">ECFTPQ2602104285914</span></div>
+                <div class="barcode-line"></div>
+            </div>
+
+            <div class="middle-section">
+                <div class="customer-info">
+                    <div class="field"><b>اسم الزبون (ة):</b> <span class="input-area" contenteditable="true"></span></div>
+                    <div class="field"><b>رقم الهاتف:</b> <span class="input-area" contenteditable="true"></span></div>
+                    <div class="field"><b>السكن:</b> <span class="input-area" contenteditable="true"></span></div>
+                    <div class="field"><b>عدد المنتج:</b> <span class="input-area" contenteditable="true"></span></div>
+                </div>
+                <div class="city-box">
+                    <div class="wilaya-code" contenteditable="true">28</div>
+                    <div class="wilaya-name" contenteditable="true">M'Sila</div>
+                    <div style="border:1px solid #000; padding: 2px 10px; margin-top:5px; font-weight:bold;">MS</div>
+                </div>
+            </div>
+
+            <div class="total-area">
+                <span>Recouvrement:</span>
+                <div class="price-tag">Total: <span contenteditable="true">0</span> DZD</div>
+            </div>
+
+            <div class="footer">
+                شكراً لك على ثقتك ودعمك وتسوقك
+            </div>
+        </div>
+        `;
+
+        for (let i = 0; i < 6; i++) {
+            document.write(cardHTML);
+        }
+    </script>
+</div>
+
+</body>
+</html>
