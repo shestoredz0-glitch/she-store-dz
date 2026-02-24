@@ -2,194 +2,142 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فاتورة She.Store_DZ</title>
+    <title>نظام فواتير She.Store_DZ</title>
     <style>
-        :root {
-            --pink-dark: #f1a7c4;
-            --pink-light: #fff0f5;
-            --text-color: #d67ba1;
-        }
-
+        @page { size: A4; margin: 5mm; }
         body {
-            background-color: var(--pink-light);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
-        }
-
-        /* حاوية الفاتورة */
-        .receipt-container {
-            background-color: white;
-            width: 350px;
             padding: 20px;
-            border: 2px solid var(--pink-dark);
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        /* حاوية الورقة A4 */
+        .page-a4 {
+            width: 210mm;
+            background: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        /* تصميم الفاتورة الواحدة */
+        .label-card {
+            border: 2px solid #000;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 90mm; /* لضمان تناسق 6 في الصفحة */
+            box-sizing: border-box;
             position: relative;
+            overflow: hidden;
         }
-
-        /* الزخرفة (القوس/الشرائط) */
-        .receipt-container::before, .receipt-container::after {
-            content: '🎀';
-            position: absolute;
-            font-size: 24px;
-            top: -15px;
-        }
-        .receipt-container::before { left: 10px; }
-        .receipt-container::after { right: 10px; }
-
         .header {
-            text-align: center;
-            color: var(--text-color);
-        }
-
-        .store-name {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-family: 'Cursive', sans-serif;
-        }
-
-        .title-receipt {
-            font-size: 40px;
-            font-family: 'Brush Script MT', cursive;
-            margin: 10px 0;
-            border-bottom: 1px solid var(--pink-dark);
-            display: inline-block;
-            width: 80%;
-        }
-
-        .info-section {
-            margin-top: 20px;
-        }
-
-        .info-row {
             display: flex;
             justify-content: bween;
-            margin-bottom: 12px;
-            border-bottom: 1px dashed var(--pink-dark);
+            border-bottom: 2px solid #000;
             padding-bottom: 5px;
+            align-items: center;
+        }
+        .store-info { font-weight: bold; font-size: 18px; }
+        .livraison-text { text-align: left; font-weight: bold; font-size: 16px; }
+        
+        .tracking-section {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding: 5px 0;
+        }
+        .tracking-label { font-size: 12px; font-weight: bold; }
+        .barcode-placeholder {
+            height: 40px;
+            background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 4px);
+            margin: 5px 0;
         }
 
-        .label {
-            color: var(--text-color);
-            font-weight: bold;
-            min-width: 100px;
-        }
-
-        .input-space {
+        .main-content {
+            display: flex;
             flex-grow: 1;
-            text-align: left;
-            color: #555;
+            border-bottom: 2px solid #000;
+        }
+        .customer-details {
+            flex: 2;
+            padding: 5px;
+            border-left: 2px solid #000;
+        }
+        .msila-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .big-number { font-size: 45px; font-weight: bold; line-height: 1; }
+        .city-name { font-size: 18px; font-weight: bold; border-top: 2px solid #000; width: 100%; padding-top: 5px; }
+
+        .field { margin-bottom: 8px; font-size: 14px; }
+        .field span { font-weight: bold; }
+        .editable {
+            display: inline-block;
+            min-width: 50px;
+            border-bottom: 1px solid #ccc;
+            outline: none;
         }
 
         .total-section {
-            margin-top: 30px;
-            text-align: center;
-            border-top: 2px solid var(--pink-dark);
-            padding-top: 15px;
-        }
-
-        .total-label {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 30px;
-            color: var(--text-color);
-        }
-
-        .total-value {
-            font-size: 22px;
-            font-weight: bold;
-            color: #333;
-            margin-top: 5px;
-        }
-
-        .barcode {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .barcode img {
-            width: 80%;
-            height: 50px;
-            opacity: 0.6;
-            filter: sepia(100%) hue-rotate(280deg) saturate(200%);
-        }
-
-        .footer-thanks {
-            margin-top: 15px;
-            font-size: 14px;
-            color: var(--text-color);
-            text-align: center;
-            font-style: italic;
-        }
-
-        /* زر الطباعة (يختفي عند الطباعة) */
-        .print-btn {
-            margin-top: 20px;
-            background: var(--pink-dark);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            width: 100%;
+            display: flex;
+            justify-content: bween;
+            align-items: center;
+            padding: 5px;
             font-weight: bold;
         }
+        .total-box { border: 2px solid #000; padding: 5px 15px; font-size: 18px; }
 
+        .footer-note {
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            padding-top: 5px;
+        }
+
+        /* تنسيق الطباعة */
         @media print {
-            .print-btn { display: none; }
-            body { background: white; }
-            .receipt-container { box-shadow: none; border: 1px solid #eee; }
+            body { background: none; padding: 0; }
+            .no-print { display: none; }
+            .page-a4 { border: none; box-shadow: none; margin: 0; }
+        }
+        
+        .no-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
 
-    <div class="receipt-container">
-        <div class="header">
-            <div class="store-name">she.store_dz</div>
-            <div class="title-receipt">Receipt</div>
-            <p>شكراً لتسوقكم معنا!</p>
-        </div>
+    <button class="no-print" onclick="window.print()">تحميل الصفحة PDF</button>
 
-        <div class="info-section">
-            <div class="info-row">
-                <span class="label">اسم الزبون(ة):</span>
-                <span class="input-space" contenteditable="true">......................</span>
-            </div>
-            <div class="info-row">
-                <span class="label">رقم الهاتف:</span>
-                <span class="input-space" contenteditable="true">......................</span>
-            </div>
-            <div class="info-row">
-                <span class="label">السكن (ولاية):</span>
-                <span class="input-space" contenteditable="true">......................</span>
-            </div>
-            <div class="info-row">
-                <span class="label">عدد المنتجات:</span>
-                <span class="input-space" contenteditable="true">......................</span>
-            </div>
-        </div>
+    <div class="page-a4">
+        <script>
+            for (let i = 0; i < 6; i++) {
+                document.write(`
+                <div class="label-card">
+                    <div class="header">
+                        <div class="store-info">she.store_dz</div>
+                        <div class="livraison-text">Livraison<br>STOP DESK</div>
+                    </div>
 
-        <div class="total-section">
-            <div class="total-label">Total:</div>
-            <div class="total-value" contenteditable="true">00.00 دج</div>
-        </div>
-
-        <div class="barcode">
-            <img src="https://bwipjs-api.metafloor.com/?bcid=code128&text=SHESTOREDZ&scale=3&rotate=N&includetext" alt="Barcode">
-        </div>
-
-        <div class="footer-thanks">
-            شكراً لكِ على ثقتك ودعمك ✨
-        </div>
-
-        <button class="print-btn" onclick="window.print()">تحميل الفاتورة (PDF)</button>
-    </div>
-
-</body>
-</html>
+                    <div class="tracking-section">
+                        <div class="tracking-label">TRACKING : <span class="editable" contenteditable="true">ECFTPQ00000000</span>
