@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الفواتير - She.Store_DZ</title>
+    <title>فواتير She.Store_DZ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @page { size: A4; margin: 0; }
-        body { font-family: 'Arial', sans-serif; background: #eee; margin: 0; padding: 20px; }
+        body { font-family: 'Arial', sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
         
         .page-a4 {
             width: 210mm;
@@ -16,8 +17,8 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: repeat(3, 1fr);
-            gap: 2mm;
-            padding: 5mm;
+            gap: 5mm;
+            padding: 10mm;
             box-sizing: border-box;
         }
 
@@ -25,21 +26,18 @@
             border: 2px solid #000;
             display: flex;
             flex-direction: column;
-            padding: 0;
-            height: 90mm;
+            height: 85mm;
             box-sizing: border-box;
+            position: relative;
         }
 
         .header {
-            display: flex;
-            justify-content: bween;
-            align-items: center;
+            text-align: center;
             border-bottom: 2px solid #000;
-            padding: 5px 10px;
+            padding: 8px;
+            font-size: 18px;
+            font-weight: bold;
         }
-
-        .store-name { font-weight: bold; font-size: 20px; }
-        .delivery-type { text-align: left; font-size: 14px; font-weight: bold; }
 
         .tracking-box {
             border-bottom: 2px solid #000;
@@ -47,9 +45,9 @@
             padding: 5px;
         }
         .barcode-line {
-            height: 35px;
+            height: 30px;
             background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 5px);
-            margin: 3px 0;
+            margin: 5px 0;
         }
 
         .middle-section {
@@ -70,74 +68,93 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background: #fafafa;
         }
 
-        .wilaya-code { font-size: 50px; font-weight: bold; line-height: 1; }
-        .wilaya-name { font-size: 18px; font-weight: bold; border-top: 2px solid #000; width: 100%; text-align: center; padding-top: 5px; }
+        .wilaya-code { font-size: 45px; font-weight: bold; line-height: 1; }
+        .wilaya-name { font-size: 16px; font-weight: bold; border-top: 2px solid #000; width: 100%; text-align: center; padding-top: 5px; }
 
-        .field { margin-bottom: 10px; font-size: 15px; }
-        .field b { color: #000; }
+        .field { margin-bottom: 12px; font-size: 14px; display: flex; align-items: center; }
+        .field b { margin-left: 5px; white-space: nowrap; }
         .input-area {
-            border-bottom: 1px solid #000;
-            display: inline-block;
-            min-width: 120px;
+            flex-grow: 1;
             outline: none;
-            cursor: text;
+            min-height: 1.2em;
         }
 
         .total-area {
             display: flex;
-            justify-content: bween;
+            justify-content: center;
             align-items: center;
-            padding: 8px 10px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .price-tag { 
+            border: 2px solid #000; 
+            padding: 5px 20px; 
+            font-size: 18px; 
             font-weight: bold;
         }
-        .price-tag { border: 2px solid #000; padding: 5px 15px; font-size: 18px; }
 
-        .footer {
+        .social-footer {
             text-align: center;
-            font-size: 12px;
-            font-weight: bold;
             padding: 5px;
-            background: #f9f9f9;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .social-footer i { color: #e1306c; margin-left: 5px; }
+
+        .thanks-msg {
+            text-align: center;
+            font-size: 11px;
+            padding: 5px;
+            border-top: 1px solid #000;
+            font-weight: bold;
         }
 
-        /* زر التحميل */
-        .no-print {
+        /* زر التحميل يظهر في الموقع ويختفي عند الطباعة */
+        .btn-container {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: #000;
+            z-index: 1000;
+        }
+        .no-print {
+            background: #27ae60;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
+            border-radius: 8px;
             cursor: pointer;
-            z-index: 9999;
             font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         @media print {
-            .no-print { display: none; }
+            .btn-container, .no-print { display: none !important; }
             body { padding: 0; background: white; }
-            .page-a4 { box-shadow: none; margin: 0; width: 100%; }
+            .page-a4 { box-shadow: none; margin: 0; border: none; }
         }
     </style>
 </head>
 <body>
 
-<button class="no-print" onclick="window.print()">تحميل PDF للطباعة</button>
+<div class="btn-container">
+    <button class="no-print" onclick="window.print()">
+        <i class="fas fa-file-pdf"></i> تحميل PDF للطباعة
+    </button>
+</div>
 
-<div class="page-a4" id="labelsContainer">
+<div class="page-a4">
     <script>
         const cardHTML = `
         <div class="label-card">
             <div class="header">
-                <div class="store-name">she.store_dz</div>
-                <div class="delivery-type">Livraison<br>STOP DESK</div>
+                التسوق مع she.store_dz
             </div>
 
             <div class="tracking-box">
-                <div style="font-size: 11px;">TRACKING: <span contenteditable="true">ECFTPQ2602104285914</span></div>
+                <div style="font-size: 11px;">TRACKING: <span contenteditable="true">ECFTPQ0000000000</span></div>
                 <div class="barcode-line"></div>
             </div>
 
@@ -151,16 +168,18 @@
                 <div class="city-box">
                     <div class="wilaya-code" contenteditable="true">28</div>
                     <div class="wilaya-name" contenteditable="true">M'Sila</div>
-                    <div style="border:1px solid #000; padding: 2px 10px; margin-top:5px; font-weight:bold;">MS</div>
                 </div>
             </div>
 
             <div class="total-area">
-                <span>Recouvrement:</span>
-                <div class="price-tag">Total: <span contenteditable="true">0</span> DZD</div>
+                <div class="price-tag">Total: <span contenteditable="true">0</span> DA</div>
             </div>
 
-            <div class="footer">
+            <div class="social-footer">
+                <i class="fab fa-instagram"></i> she.store_dz
+            </div>
+
+            <div class="thanks-msg">
                 شكراً لك على ثقتك ودعمك وتسوقك
             </div>
         </div>
