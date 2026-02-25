@@ -2,51 +2,60 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>فاتورة She.Store_DZ - النسخة النهائية</title>
+    <title>فاتورة She.Store_DZ - التصميم الطولي</title>
     <style>
-        /* إعدادات الصفحة الأساسية */
         @page { size: A4; margin: 0; }
         body { 
             font-family: 'Arial', sans-serif; 
-            background: #f5f5f5; 
+            background: #fdfdfd; 
             margin: 0; 
-            padding: 20px; 
+            padding: 10mm; 
             display: flex; 
             flex-direction: column; 
             align-items: center;
         }
 
-        /* تقسيم الورقة لـ 6 فاتورات */
+        /* حاوية الـ A4 المقسمة لـ 6 فواتير طويلة */
         .page-a4 {
             width: 210mm;
-            height: 297mm;
-            background: white;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: repeat(3, 1fr);
-            gap: 10px;
-            padding: 10px;
+            gap: 8mm;
             box-sizing: border-box;
         }
 
-        /* تصميم الفاتورة */
         .receipt-card {
-            border: 2px solid #C71585; /* وردي غامق للحدود */
-            padding: 15px;
+            border: 2.5px solid #C71585; /* حدود وردي غامق */
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            box-sizing: border-box;
             background: #fff;
-            height: 92mm;
-            position: relative;
+            height: 90mm; /* زيادة الطول */
+            box-sizing: border-box;
         }
 
-        /* الجزء العلوي: فاتورتك وردي والتتبع أسود يسار */
-        .top-header {
+        /* الهيدر: التتبع أسود عريض يسار والعنوان وردي يمين */
+        .header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .tracking-box {
+            color: #000;
+            font-weight: 900; /* عريض جداً */
+            font-size: 14px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .tracking-field {
+            border-bottom: 1.5px solid #000;
+            min-width: 90px;
+            display: inline-block;
+            outline: none;
         }
 
         .main-title {
@@ -55,160 +64,143 @@
             font-weight: bold;
         }
 
-        .tracking-area {
-            color: #000; /* التتبع بالأسود */
-            font-weight: bold;
-            font-size: 14px;
-            text-align: left;
-            direction: ltr; /* التتبع من اليسار لليمين */
-        }
-
-        .tracking-input {
-            border-bottom: 1px solid #000;
-            min-width: 100px;
-            display: inline-block;
-            outline: none;
-            font-weight: 900;
-        }
-
-        .store-name {
+        .store-logo {
             color: #C71585;
-            font-size: 22px;
+            font-size: 26px;
             font-weight: bold;
             text-align: center;
-            margin: 10px 0;
+            margin: 15px 0;
+            letter-spacing: 1px;
         }
 
-        /* الخانات الأربعة: الكتابة فيها تظهر بالأسود العريض */
-        .fields-group {
+        /* الخانات الـ 4: متباعدة وكتابتها سوداء عريضة */
+        .info-fields {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 18px; /* تباعد أكبر لجعلها طويلة */
         }
 
-        .input-line {
-            border-bottom: 1px solid #eee;
-            height: 25px;
+        .input-box {
+            border-bottom: 1.5px solid #eee;
+            height: 30px;
             outline: none;
-            color: #000; /* النص المكتوب أسود */
-            font-weight: 900; /* عريض جداً */
-            font-size: 18px; /* واضح */
+            color: #000; /* المعلومات سوداء */
+            font-weight: 900; /* خط عريض */
+            font-size: 19px; /* خط واضح */
         }
 
         /* خيارات الدفع وردي */
-        .payment-info {
+        .payment-row {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin: 10px 0;
+            margin: 15px 0;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 13px;
             color: #C71585;
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
+        .check-circle {
+            width: 14px;
+            height: 14px;
             border: 2px solid #C71585;
             border-radius: 50%;
             display: inline-block;
+            vertical-align: middle;
             margin-left: 5px;
         }
 
-        /* Total: في الوسط وبالأسود */
-        .total-container {
-            font-size: 22px;
+        /* التوتال: في الوسط، أسود عريض */
+        .total-section {
+            font-size: 24px;
             font-weight: 900;
-            color: #000; /* أسود */
-            border-top: 2px solid #C71585; /* خط وردي فوقه */
-            padding-top: 10px;
+            color: #000;
+            border-top: 2.5px solid #C71585;
+            padding-top: 12px;
             text-align: center;
-            margin-top: 5px;
         }
 
-        .total-input {
+        .total-amount {
             outline: none;
             display: inline-block;
-            min-width: 40px;
+            min-width: 60px;
         }
 
-        /* الرسالة والباركود وردي */
-        .thanks-text {
+        .footer-note {
             text-align: center;
-            font-size: 11px;
-            margin-top: 10px;
+            font-size: 12px;
+            margin-top: 15px;
             font-weight: bold;
             color: #C71585;
         }
 
-        .barcode-design {
-            height: 30px;
-            background: repeating-linear-gradient(90deg, #C71585, #C71585 2px, transparent 2px, transparent 5px);
-            margin-top: 5px;
-            width: 80%;
+        .barcode-strip {
+            height: 35px;
+            background: repeating-linear-gradient(90deg, #C71585, #C71585 2.5px, transparent 2.5px, transparent 5px);
+            margin-top: 10px;
+            width: 85%;
             align-self: center;
         }
 
-        /* زر التحميل يختفي عند الطباعة */
-        .download-btn {
+        /* الزر */
+        .print-btn {
             background-color: #C71585;
             color: white;
-            padding: 12px 30px;
+            padding: 15px 40px;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 18px;
             cursor: pointer;
             margin-bottom: 20px;
             font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         @media print {
-            .download-btn { display: none !important; }
+            .print-btn { display: none !important; }
             body { padding: 0; background: white; }
-            .page-a4 { box-shadow: none; margin: 0; }
+            .page-a4 { gap: 0; padding: 5mm; }
         }
     </style>
 </head>
 <body>
 
-    <button class="download-btn" onclick="window.print()">تنزيل الفواتير PDF للطباعة</button>
+    <button class="print-btn" onclick="window.print()">تنزيل الفواتير PDF للطباعة</button>
 
     <div class="page-a4">
         <script>
-            // تكرار الكود لإنشاء 6 فاتورات
             for (let i = 0; i < 6; i++) {
                 document.write(`
                 <div class="receipt-card">
-                    <div class="top-header">
-                        <div class="main-title">فاتورتك</div>
-                        <div class="tracking-area">
-                            <span>tracking:</span>
-                            <span class="tracking-input" contenteditable="true"></span>
+                    <div class="header-row">
+                        <div class="tracking-box">
+                            tracking: <span class="tracking-field" contenteditable="true"></span>
                         </div>
+                        <div class="main-title">فاتورتك</div>
                     </div>
 
-                    <div class="store-name">she.store_dz</div>
+                    <div class="store-logo">she.store_dz</div>
 
-                    <div class="fields-group">
-                        <div class="input-line" contenteditable="true"></div>
-                        <div class="input-line" contenteditable="true"></div>
-                        <div class="input-line" contenteditable="true"></div>
-                        <div class="input-line" contenteditable="true"></div>
+                    <div class="info-fields">
+                        <div class="input-box" contenteditable="true"></div>
+                        <div class="input-box" contenteditable="true"></div>
+                        <div class="input-box" contenteditable="true"></div>
+                        <div class="input-box" contenteditable="true"></div>
                     </div>
 
-                    <div class="payment-info">
-                        <div><span class="dot"></span> دفع مسبق</div>
-                        <div><span class="dot"></span> دفع عند الاستلام</div>
+                    <div class="payment-row">
+                        <div><span class="check-circle"></span> دفع مسبق</div>
+                        <div><span class="check-circle"></span> دفع عند الاستلام</div>
                     </div>
 
-                    <div class="total-container">
+                    <div class="total-section">
                         <span>Total: </span>
-                        <span class="total-input" contenteditable="true"></span>
+                        <span class="total-amount" contenteditable="true"></span>
                     </div>
 
-                    <div class="thanks-text">شكراً لك على ثقتك ودعمك وتسوقك</div>
-                    <div class="barcode-design"></div>
+                    <div class="footer-note">شكراً لك على ثقتك ودعمك وتسوقك</div>
+                    <div class="barcode-strip"></div>
                 </div>
                 `);
             }
