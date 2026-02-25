@@ -2,13 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>فاتورة She.Store_DZ</title>
+    <title>فاتورة She.Store_DZ المطورة</title>
     <style>
-        /* إعدادات الطباعة والورقة */
         @page { size: A4; margin: 0; }
         body { 
             font-family: 'Arial', sans-serif; 
-            background: #eee; 
+            background: #f0f0f0; 
             margin: 0; 
             padding: 20px; 
             display: flex; 
@@ -18,68 +17,76 @@
 
         .page-a4 {
             width: 210mm;
-            height: 297mm;
             background: white;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* فاتورتين بجانب بعض */
-            grid-template-rows: repeat(3, 1fr); /* 3 صفوف */
-            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 12px;
             padding: 15px;
             box-sizing: border-box;
         }
 
-        /* تصميم الفاتورة الطولي */
         .receipt-card {
-            border: 2px solid #C71585; /* وردي غامق */
-            padding: 20px;
+            border: 2px solid #C71585; /* الوردي الغامق للحدود */
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            color: #C71585;
             box-sizing: border-box;
             background: #fff;
-            position: relative;
+            height: 90mm;
+        }
+
+        /* الجزء العلوي */
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
         }
 
         .header-title {
-            font-size: 26px;
+            color: #C71585;
+            font-size: 24px;
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 10px;
         }
 
         .tracking-section {
+            color: #000; /* التتبع بالأسود */
+            font-weight: bold;
             font-size: 14px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            text-align: left;
+            direction: ltr; /* لجعل الكتابة من اليسار */
         }
+        .tracking-label { font-weight: 900; }
         .tracking-input {
-            flex-grow: 1;
-            height: 20px;
+            border-bottom: 1px solid #000;
+            min-width: 100px;
+            display: inline-block;
             outline: none;
         }
 
         .store-logo {
-            font-size: 24px;
+            color: #C71585;
+            font-size: 22px;
             font-weight: bold;
             text-align: center;
-            margin: 15px 0;
-            letter-spacing: 1px;
+            margin: 10px 0;
         }
 
-        /* خانات المعلومات الـ 4 الفارغة */
+        /* خانات المعلومات الـ 4 */
         .fields-container {
-            flex-grow: 1; /* تأخذ المساحة الوسطى لتجعل الفاتورة طويلة */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 15px;
         }
         .empty-field {
-            border-bottom: 1px solid #f2f2f2;
-            height: 30px;
+            border-bottom: 1.5px solid #eee;
+            height: 25px;
             outline: none;
+            color: #000; /* الكتابة بالأسود */
+            font-weight: bold; /* خط عريض */
+            font-size: 18px; /* خط واضح */
         }
 
         /* خيارات الدفع */
@@ -87,13 +94,14 @@
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin: 20px 0;
+            margin: 10px 0;
             font-weight: bold;
             font-size: 13px;
+            color: #C71585;
         }
         .circle {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border: 2px solid #C71585;
             border-radius: 50%;
             display: inline-block;
@@ -101,65 +109,71 @@
             margin-left: 5px;
         }
 
+        /* التوتال في المنتصف وبالأسود */
         .total-box {
             font-size: 22px;
-            font-weight: bold;
+            font-weight: 900;
+            color: #000;
             border-top: 2px solid #C71585;
-            padding-top: 10px;
-            display: flex;
-            justify-content: bween;
+            padding-top: 8px;
+            text-align: center;
+            display: block;
         }
+        .total-input { outline: none; min-width: 50px; display: inline-block; }
 
         .thanks-msg {
             text-align: center;
-            font-size: 12px;
-            margin-top: 15px;
+            font-size: 11px;
+            margin-top: 10px;
             font-weight: bold;
+            color: #C71585;
         }
 
         .barcode-footer {
-            height: 40px;
+            height: 35px;
             background: repeating-linear-gradient(90deg, #C71585, #C71585 2px, transparent 2px, transparent 5px);
-            margin-top: 10px;
-            width: 90%;
+            margin-top: 8px;
+            width: 85%;
             align-self: center;
+            opacity: 0.8;
         }
 
         /* زر التحميل */
         .no-print {
             background-color: #C71585;
             color: white;
-            padding: 15px 35px;
+            padding: 12px 30px;
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 25px;
+            font-size: 16px;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         @media print {
             .no-print { display: none !important; }
             body { padding: 0; background: white; }
-            .page-a4 { box-shadow: none; margin: 0; }
-            .receipt-card { border: 2px solid #C71585 !important; }
+            .page-a4 { box-shadow: none; margin: 0; width: 210mm; height: 297mm; }
         }
     </style>
 </head>
 <body>
 
-    <button class="no-print" onclick="window.print()">تحميل PDF للطباعة</button>
+    <button class="no-print" onclick="window.print()">نزل الفاتورة PDF واطبع</button>
 
     <div class="page-a4">
         <script>
             for (let i = 0; i < 6; i++) {
                 document.write(`
                 <div class="receipt-card">
-                    <div class="header-title">فاتورتك</div>
-                    
-                    <div class="tracking-section">
-                        <span>tracking:</span>
-                        <div class="tracking-input" contenteditable="true"></div>
+                    <div class="top-row">
+                        <div class="header-title">فاتورتك</div>
+                        <div class="tracking-section">
+                            <span class="tracking-label">tracking:</span>
+                            <span class="tracking-input" contenteditable="true"></span>
+                        </div>
                     </div>
 
                     <div class="store-logo">she.store_dz</div>
@@ -177,8 +191,8 @@
                     </div>
 
                     <div class="total-box">
-                        <span>Total:</span>
-                        <span contenteditable="true">00 DA</span>
+                        <span>Total: </span>
+                        <span class="total-input" contenteditable="true"></span>
                     </div>
 
                     <div class="thanks-msg">شكراً لك على ثقتك ودعمك وتسوقك</div>
