@@ -2,12 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>فاتورة She.Store_DZ المطورة</title>
+    <title>فاتورة She.Store_DZ - النسخة النهائية</title>
     <style>
+        /* إعدادات الصفحة الأساسية */
         @page { size: A4; margin: 0; }
         body { 
             font-family: 'Arial', sans-serif; 
-            background: #f0f0f0; 
+            background: #f5f5f5; 
             margin: 0; 
             padding: 20px; 
             display: flex; 
@@ -15,57 +16,62 @@
             align-items: center;
         }
 
+        /* تقسيم الورقة لـ 6 فاتورات */
         .page-a4 {
             width: 210mm;
+            height: 297mm;
             background: white;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: repeat(3, 1fr);
-            gap: 12px;
-            padding: 15px;
+            gap: 10px;
+            padding: 10px;
             box-sizing: border-box;
         }
 
+        /* تصميم الفاتورة */
         .receipt-card {
-            border: 2px solid #C71585; /* الوردي الغامق للحدود */
+            border: 2px solid #C71585; /* وردي غامق للحدود */
             padding: 15px;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
             background: #fff;
-            height: 90mm;
+            height: 92mm;
+            position: relative;
         }
 
-        /* الجزء العلوي */
-        .top-row {
+        /* الجزء العلوي: فاتورتك وردي والتتبع أسود يسار */
+        .top-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 5px;
         }
 
-        .header-title {
+        .main-title {
             color: #C71585;
             font-size: 24px;
             font-weight: bold;
         }
 
-        .tracking-section {
+        .tracking-area {
             color: #000; /* التتبع بالأسود */
             font-weight: bold;
             font-size: 14px;
             text-align: left;
-            direction: ltr; /* لجعل الكتابة من اليسار */
+            direction: ltr; /* التتبع من اليسار لليمين */
         }
-        .tracking-label { font-weight: 900; }
+
         .tracking-input {
             border-bottom: 1px solid #000;
             min-width: 100px;
             display: inline-block;
             outline: none;
+            font-weight: 900;
         }
 
-        .store-logo {
+        .store-name {
             color: #C71585;
             font-size: 22px;
             font-weight: bold;
@@ -73,55 +79,62 @@
             margin: 10px 0;
         }
 
-        /* خانات المعلومات الـ 4 */
-        .fields-container {
+        /* الخانات الأربعة: الكتابة فيها تظهر بالأسود العريض */
+        .fields-group {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        .empty-field {
-            border-bottom: 1.5px solid #eee;
+
+        .input-line {
+            border-bottom: 1px solid #eee;
             height: 25px;
             outline: none;
-            color: #000; /* الكتابة بالأسود */
-            font-weight: bold; /* خط عريض */
-            font-size: 18px; /* خط واضح */
+            color: #000; /* النص المكتوب أسود */
+            font-weight: 900; /* عريض جداً */
+            font-size: 18px; /* واضح */
         }
 
-        /* خيارات الدفع */
-        .payment-methods {
+        /* خيارات الدفع وردي */
+        .payment-info {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin: 10px 0;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             color: #C71585;
         }
-        .circle {
-            width: 12px;
-            height: 12px;
+
+        .dot {
+            width: 10px;
+            height: 10px;
             border: 2px solid #C71585;
             border-radius: 50%;
             display: inline-block;
-            vertical-align: middle;
             margin-left: 5px;
         }
 
-        /* التوتال في المنتصف وبالأسود */
-        .total-box {
+        /* Total: في الوسط وبالأسود */
+        .total-container {
             font-size: 22px;
             font-weight: 900;
-            color: #000;
-            border-top: 2px solid #C71585;
-            padding-top: 8px;
+            color: #000; /* أسود */
+            border-top: 2px solid #C71585; /* خط وردي فوقه */
+            padding-top: 10px;
             text-align: center;
-            display: block;
+            margin-top: 5px;
         }
-        .total-input { outline: none; min-width: 50px; display: inline-block; }
 
-        .thanks-msg {
+        .total-input {
+            outline: none;
+            display: inline-block;
+            min-width: 40px;
+        }
+
+        /* الرسالة والباركود وردي */
+        .thanks-text {
             text-align: center;
             font-size: 11px;
             margin-top: 10px;
@@ -129,75 +142,73 @@
             color: #C71585;
         }
 
-        .barcode-footer {
-            height: 35px;
+        .barcode-design {
+            height: 30px;
             background: repeating-linear-gradient(90deg, #C71585, #C71585 2px, transparent 2px, transparent 5px);
-            margin-top: 8px;
-            width: 85%;
+            margin-top: 5px;
+            width: 80%;
             align-self: center;
-            opacity: 0.8;
         }
 
-        /* زر التحميل */
-        .no-print {
+        /* زر التحميل يختفي عند الطباعة */
+        .download-btn {
             background-color: #C71585;
             color: white;
             padding: 12px 30px;
             border: none;
-            border-radius: 25px;
+            border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         @media print {
-            .no-print { display: none !important; }
+            .download-btn { display: none !important; }
             body { padding: 0; background: white; }
-            .page-a4 { box-shadow: none; margin: 0; width: 210mm; height: 297mm; }
+            .page-a4 { box-shadow: none; margin: 0; }
         }
     </style>
 </head>
 <body>
 
-    <button class="no-print" onclick="window.print()">نزل الفاتورة PDF واطبع</button>
+    <button class="download-btn" onclick="window.print()">تنزيل الفواتير PDF للطباعة</button>
 
     <div class="page-a4">
         <script>
+            // تكرار الكود لإنشاء 6 فاتورات
             for (let i = 0; i < 6; i++) {
                 document.write(`
                 <div class="receipt-card">
-                    <div class="top-row">
-                        <div class="header-title">فاتورتك</div>
-                        <div class="tracking-section">
-                            <span class="tracking-label">tracking:</span>
+                    <div class="top-header">
+                        <div class="main-title">فاتورتك</div>
+                        <div class="tracking-area">
+                            <span>tracking:</span>
                             <span class="tracking-input" contenteditable="true"></span>
                         </div>
                     </div>
 
-                    <div class="store-logo">she.store_dz</div>
+                    <div class="store-name">she.store_dz</div>
 
-                    <div class="fields-container">
-                        <div class="empty-field" contenteditable="true"></div>
-                        <div class="empty-field" contenteditable="true"></div>
-                        <div class="empty-field" contenteditable="true"></div>
-                        <div class="empty-field" contenteditable="true"></div>
+                    <div class="fields-group">
+                        <div class="input-line" contenteditable="true"></div>
+                        <div class="input-line" contenteditable="true"></div>
+                        <div class="input-line" contenteditable="true"></div>
+                        <div class="input-line" contenteditable="true"></div>
                     </div>
 
-                    <div class="payment-methods">
-                        <div><span class="circle"></span> دفع مسبق</div>
-                        <div><span class="circle"></span> دفع عند الاستلام</div>
+                    <div class="payment-info">
+                        <div><span class="dot"></span> دفع مسبق</div>
+                        <div><span class="dot"></span> دفع عند الاستلام</div>
                     </div>
 
-                    <div class="total-box">
+                    <div class="total-container">
                         <span>Total: </span>
                         <span class="total-input" contenteditable="true"></span>
                     </div>
 
-                    <div class="thanks-msg">شكراً لك على ثقتك ودعمك وتسوقك</div>
-                    
-                    <div class="barcode-footer"></div>
+                    <div class="thanks-text">شكراً لك على ثقتك ودعمك وتسوقك</div>
+                    <div class="barcode-design"></div>
                 </div>
                 `);
             }
