@@ -2,13 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>فاتورة She.Store_DZ - 4 في الصفحة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>She Store DZ - Invoices</title>
     <style>
-        /* إعدادات الورقة A4 */
+        /* إعدادات الصفحة الأساسية للطباعة A4 */
         @page { size: A4; margin: 0; }
         body { 
-            font-family: 'Arial', sans-serif; 
-            background: #f4f4f4; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #fdf2f8; 
             margin: 0; 
             padding: 10mm; 
             display: flex; 
@@ -16,125 +17,134 @@
             align-items: center;
         }
 
-        /* حاوية الـ A4 مقسمة لـ 4 فواتير فقط (2 بجانب بعض و 2 تحت بعض) */
-        .page-a4 {
+        /* حاوية الفواتير الأربعة */
+        .page-container {
             width: 210mm;
             height: 297mm;
             background: white;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 15mm;
-            padding: 15mm;
+            gap: 10mm;
+            padding: 10mm;
             box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        /* تصميم الفاتورة - حجم أكبر */
-        .receipt-card {
-            border: 3px solid #C71585; /* حدود أسمك قليلاً */
-            padding: 25px;
+        /* تصميم كرت الفاتورة */
+        .invoice-card {
+            border: 2px dashed #db2777; /* وردي غامق منقط للجمالية */
+            padding: 20px;
             display: flex;
             flex-direction: column;
             background: #fff;
-            box-sizing: border-box;
-            height: 100%; /* تأخذ كامل مساحة الخلية */
             position: relative;
+            box-sizing: border-box;
+            border-radius: 5px;
         }
 
-        /* الهيدر: التتبع أسود يسار وفاتورتك وردي يمين */
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .tracking-section {
-            color: #000;
+        /* العنوان الرئيسي */
+        .main-title {
+            color: #db2777; /* وردي غامق */
+            font-size: 28px;
             font-weight: 900;
-            font-size: 15px;
-            direction: ltr;
-            text-align: left;
+            text-align: center;
+            margin: 0;
+            letter-spacing: 2px;
         }
+
+        /* قسم التتبع على اليسار */
+        .tracking-box {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #000;
+            direction: ltr; /* لجعل الكتابة من اليسار */
+        }
+        .tracking-label { font-weight: bold; margin-right: 5px; }
         .tracking-input {
-            border-bottom: 2px solid #000;
+            border-bottom: 1px solid #000;
             min-width: 100px;
-            display: inline-block;
             outline: none;
             color: #000;
-        }
-
-        .title-pink {
-            color: #C71585;
-            font-size: 26px;
             font-weight: bold;
         }
 
-        .store-logo {
-            color: #C71585;
-            font-size: 28px;
-            font-weight: bold;
+        .store-name {
+            color: #db2777;
             text-align: center;
-            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0 20px 0;
+            border-bottom: 1px solid #fbcfe8;
+            padding-bottom: 5px;
         }
 
-        /* الخانات الأربعة: عناوين وردية وكتابة سوداء عريضة */
-        .fields-container {
+        /* معلومات الزبون */
+        .client-info {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        .field-row {
+        .info-row {
             display: flex;
-            border-bottom: 1.5px solid #eee;
-            color: #C71585; 
-            font-weight: bold;
-            font-size: 16px;
-            padding-bottom: 5px;
+            align-items: center;
+            color: #db2777; /* وردي غامق */
+            font-weight: 900;
+            font-size: 15px;
         }
-        .user-text {
+        .info-input {
             flex-grow: 1;
-            color: #000; 
-            font-weight: 900; 
-            font-size: 20px; /* خط أوضح وأكبر */
+            margin-right: 10px;
+            border-bottom: 1px solid #eee;
+            color: #000; /* الكتابة بالأسود */
+            font-weight: bold;
             outline: none;
-            margin-right: 8px;
+            min-height: 20px;
         }
 
-        .payment-box {
+        /* دوائر الدفع */
+        .payment-methods {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin: 20px 0;
+            gap: 20px;
+            margin: 15px 0;
+            font-size: 13px;
             font-weight: bold;
-            font-size: 14px;
-            color: #C71585;
+            color: #db2777;
         }
-        .dot { width: 14px; height: 14px; border: 2.5px solid #C71585; border-radius: 50%; display: inline-block; margin-left: 5px; vertical-align: middle; }
+        .circle {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #db2777;
+            border-radius: 50%;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
 
-        /* Total: في المنتصف، أسود عريض */
+        /* خط السطر الوردي */
+        .pink-line {
+            height: 2px;
+            background-color: #db2777;
+            margin: 5px 0;
+        }
+
+        /* قسم Total */
         .total-section {
-            font-size: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
             font-weight: 900;
             color: #000;
-            border-top: 2.5px solid #C71585;
-            padding-top: 15px;
-            text-align: center;
+            margin: 10px 0;
         }
-        .total-val { outline: none; display: inline-block; min-width: 70px; }
-
-        .thanks-note {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 15px;
-            color: #C71585;
-            font-weight: bold;
-        }
-
-        /* الباركود الوردي في الأسفل */
-        .barcode-strip {
-            height: 45px;
-            background: repeating-linear-gradient(90deg, #C71585, #C71585 2.5px, transparent 2.5px, transparent 6px);
-            margin-top: 10px;
-            width: 9
+        .total-input {
+            margin-right: 10px;
+            min-width: 60px;
+            outline: none;
+            border-bottom: 2px solid #0
