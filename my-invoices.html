@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>She Store DZ - Invoices</title>
     <style>
-        /* إعدادات الصفحة الأساسية للطباعة A4 */
+        /* إعدادات الصفحة للطباعة A4 */
         @page { size: A4; margin: 0; }
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Arial', sans-serif; 
             background: #fdf2f8; 
             margin: 0; 
             padding: 10mm; 
@@ -28,58 +28,57 @@
             gap: 10mm;
             padding: 10mm;
             box-sizing: border-box;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        /* تصميم كرت الفاتورة */
+        /* تصميم كرت الفاتورة المستوحى من الصور المرفقة */
         .invoice-card {
-            border: 2px dashed #db2777; /* وردي غامق منقط للجمالية */
+            border: 2px solid #db2777; /* وردي غامق */
             padding: 20px;
             display: flex;
             flex-direction: column;
             background: #fff;
             position: relative;
             box-sizing: border-box;
-            border-radius: 5px;
+            border-radius: 8px;
         }
 
-        /* العنوان الرئيسي */
+        /* الهيدر: فاتورتك وردي والتتبع أسود يسار */
+        .header-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
         .main-title {
             color: #db2777; /* وردي غامق */
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 900;
-            text-align: center;
             margin: 0;
-            letter-spacing: 2px;
         }
 
-        /* قسم التتبع على اليسار */
         .tracking-box {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            margin-top: 5px;
+            align-self: flex-start;
+            color: #000; /* أسود */
+            font-weight: bold;
             font-size: 14px;
-            color: #000;
-            direction: ltr; /* لجعل الكتابة من اليسار */
+            direction: ltr; /* لليسار */
+            margin-top: 5px;
         }
-        .tracking-label { font-weight: bold; margin-right: 5px; }
         .tracking-input {
-            border-bottom: 1px solid #000;
-            min-width: 100px;
+            border-bottom: 1.5px solid #000;
+            min-width: 90px;
+            display: inline-block;
             outline: none;
             color: #000;
-            font-weight: bold;
         }
 
-        .store-name {
+        .store-logo {
             color: #db2777;
-            text-align: center;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
-            margin: 10px 0 20px 0;
-            border-bottom: 1px solid #fbcfe8;
-            padding-bottom: 5px;
+            text-align: center;
+            margin: 10px 0;
         }
 
         /* معلومات الزبون */
@@ -87,7 +86,7 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
         .info-row {
             display: flex;
@@ -96,18 +95,19 @@
             font-weight: 900;
             font-size: 15px;
         }
-        .info-input {
+        .user-data {
             flex-grow: 1;
-            margin-right: 10px;
+            margin-right: 8px;
             border-bottom: 1px solid #eee;
             color: #000; /* الكتابة بالأسود */
-            font-weight: bold;
+            font-weight: 900;
+            font-size: 17px;
             outline: none;
-            min-height: 20px;
+            min-height: 22px;
         }
 
-        /* دوائر الدفع */
-        .payment-methods {
+        /* دوائر الدفع المسبق وعند الاستلام */
+        .payment-options {
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -117,8 +117,8 @@
             color: #db2777;
         }
         .circle {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border: 2px solid #db2777;
             border-radius: 50%;
             display: inline-block;
@@ -126,15 +126,15 @@
             margin-left: 5px;
         }
 
-        /* خط السطر الوردي */
-        .pink-line {
-            height: 2px;
+        /* السطر الوردي الغامق */
+        .separator-line {
+            height: 2.5px;
             background-color: #db2777;
             margin: 5px 0;
         }
 
-        /* قسم Total */
-        .total-section {
+        /* قسم Total الأسود */
+        .total-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -147,4 +147,98 @@
             margin-right: 10px;
             min-width: 60px;
             outline: none;
-            border-bottom: 2px solid #0
+            border-bottom: 2px solid #000;
+            color: #000;
+        }
+
+        /* رسالة الشكر والباركود الوردي */
+        .thanks-note {
+            text-align: center;
+            font-size: 12px;
+            color: #db2777;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .barcode-pink {
+            height: 40px;
+            background: repeating-linear-gradient(90deg, #db2777, #db2777 2px, transparent 2px, transparent 5px);
+            width: 85%;
+            align-self: center;
+        }
+
+        /* زر الطباعة */
+        .btn-container {
+            padding: 20px;
+            background: #fdf2f8;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .print-btn {
+            background: #db2777;
+            color: white;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media print {
+            .btn-container { display: none; }
+            body { background: white; padding: 0; }
+            .page-container { box-shadow: none; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="btn-container">
+        <button class="print-btn" onclick="window.print()">تنزيل الفواتير PDF للطباعة</button>
+    </div>
+
+    <div class="page-container">
+        <script>
+            // تكرار الكود لإنشاء 4 فواتير في الصفحة الواحدة
+            for (let i = 0; i < 4; i++) {
+                document.write(`
+                <div class="invoice-card">
+                    <div class="header-section">
+                        <h1 class="main-title">فاتورتك</h1>
+                        <div class="tracking-box">
+                            tracking: <span class="tracking-input" contenteditable="true"></span>
+                        </div>
+                    </div>
+
+                    <div class="store-logo">she.store_dz</div>
+
+                    <div class="client-info">
+                        <div class="info-row">Nom du client: <div class="user-data" contenteditable="true"></div></div>
+                        <div class="info-row">numéro de téléphone: <div class="user-data" contenteditable="true"></div></div>
+                        <div class="info-row">Wilaya: <div class="user-data" contenteditable="true"></div></div>
+                        <div class="info-row">Numéro de produit: <div class="user-data" contenteditable="true"></div></div>
+                    </div>
+
+                    <div class="payment-options">
+                        <div><span class="circle"></span> دفع مسبق</div>
+                        <div><span class="circle"></span> دفع عند الاستلام</div>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="total-container">
+                        <span>Total:</span>
+                        <div class="total-input" contenteditable="true"></div>
+                    </div>
+
+                    <div class="thanks-note">شكراً لك على ثقتك ودعمك وتسوقك</div>
+                    <div class="barcode-pink"></div>
+                </div>
+                `);
+            }
+        </script>
+    </div>
+
+</body>
+</html>
