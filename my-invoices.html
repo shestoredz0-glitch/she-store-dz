@@ -2,193 +2,139 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>فاتورة She.Store_DZ</title>
+    <title>فاتورة She.Store_DZ - 4 في الصفحة</title>
     <style>
-        /* إعدادات الطباعة والورقة */
+        /* إعدادات الورقة A4 */
         @page { size: A4; margin: 0; }
         body { 
             font-family: 'Arial', sans-serif; 
-            background: #eee; 
+            background: #f4f4f4; 
             margin: 0; 
-            padding: 20px; 
+            padding: 10mm; 
             display: flex; 
             flex-direction: column; 
             align-items: center;
         }
 
+        /* حاوية الـ A4 مقسمة لـ 4 فواتير فقط (2 بجانب بعض و 2 تحت بعض) */
         .page-a4 {
             width: 210mm;
             height: 297mm;
             background: white;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* فاتورتين بجانب بعض */
-            grid-template-rows: repeat(3, 1fr); /* 3 صفوف */
-            gap: 15px;
-            padding: 15px;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15mm;
+            padding: 15mm;
             box-sizing: border-box;
         }
 
-        /* تصميم الفاتورة الطولي */
+        /* تصميم الفاتورة - حجم أكبر */
         .receipt-card {
-            border: 2px solid #C71585; /* وردي غامق */
-            padding: 20px;
+            border: 3px solid #C71585; /* حدود أسمك قليلاً */
+            padding: 25px;
             display: flex;
             flex-direction: column;
-            color: #C71585;
-            box-sizing: border-box;
             background: #fff;
+            box-sizing: border-box;
+            height: 100%; /* تأخذ كامل مساحة الخلية */
             position: relative;
         }
 
-        .header-title {
-            font-size: 26px;
-            font-weight: bold;
-            text-align: center;
+        /* الهيدر: التتبع أسود يسار وفاتورتك وردي يمين */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 10px;
         }
 
         .tracking-section {
-            font-size: 14px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: #000;
+            font-weight: 900;
+            font-size: 15px;
+            direction: ltr;
+            text-align: left;
         }
         .tracking-input {
-            flex-grow: 1;
-            height: 20px;
+            border-bottom: 2px solid #000;
+            min-width: 100px;
+            display: inline-block;
             outline: none;
+            color: #000;
+        }
+
+        .title-pink {
+            color: #C71585;
+            font-size: 26px;
+            font-weight: bold;
         }
 
         .store-logo {
-            font-size: 24px;
+            color: #C71585;
+            font-size: 28px;
             font-weight: bold;
             text-align: center;
-            margin: 15px 0;
-            letter-spacing: 1px;
+            margin: 20px 0;
         }
 
-        /* خانات المعلومات الـ 4 الفارغة */
+        /* الخانات الأربعة: عناوين وردية وكتابة سوداء عريضة */
         .fields-container {
-            flex-grow: 1; /* تأخذ المساحة الوسطى لتجعل الفاتورة طويلة */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 15px;
         }
-        .empty-field {
-            border-bottom: 1px solid #f2f2f2;
-            height: 30px;
+        .field-row {
+            display: flex;
+            border-bottom: 1.5px solid #eee;
+            color: #C71585; 
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+        }
+        .user-text {
+            flex-grow: 1;
+            color: #000; 
+            font-weight: 900; 
+            font-size: 20px; /* خط أوضح وأكبر */
             outline: none;
+            margin-right: 8px;
         }
 
-        /* خيارات الدفع */
-        .payment-methods {
+        .payment-box {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             margin: 20px 0;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 14px;
+            color: #C71585;
         }
-        .circle {
-            width: 14px;
-            height: 14px;
-            border: 2px solid #C71585;
-            border-radius: 50%;
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 5px;
-        }
+        .dot { width: 14px; height: 14px; border: 2.5px solid #C71585; border-radius: 50%; display: inline-block; margin-left: 5px; vertical-align: middle; }
 
-        .total-box {
-            font-size: 22px;
-            font-weight: bold;
-            border-top: 2px solid #C71585;
-            padding-top: 10px;
-            display: flex;
-            justify-content: bween;
-        }
-
-        .thanks-msg {
+        /* Total: في المنتصف، أسود عريض */
+        .total-section {
+            font-size: 26px;
+            font-weight: 900;
+            color: #000;
+            border-top: 2.5px solid #C71585;
+            padding-top: 15px;
             text-align: center;
-            font-size: 12px;
+        }
+        .total-val { outline: none; display: inline-block; min-width: 70px; }
+
+        .thanks-note {
+            text-align: center;
+            font-size: 13px;
             margin-top: 15px;
+            color: #C71585;
             font-weight: bold;
         }
 
-        .barcode-footer {
-            height: 40px;
-            background: repeating-linear-gradient(90deg, #C71585, #C71585 2px, transparent 2px, transparent 5px);
+        /* الباركود الوردي في الأسفل */
+        .barcode-strip {
+            height: 45px;
+            background: repeating-linear-gradient(90deg, #C71585, #C71585 2.5px, transparent 2.5px, transparent 6px);
             margin-top: 10px;
-            width: 90%;
-            align-self: center;
-        }
-
-        /* زر التحميل */
-        .no-print {
-            background-color: #C71585;
-            color: white;
-            padding: 15px 35px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        @media print {
-            .no-print { display: none !important; }
-            body { padding: 0; background: white; }
-            .page-a4 { box-shadow: none; margin: 0; }
-            .receipt-card { border: 2px solid #C71585 !important; }
-        }
-    </style>
-</head>
-<body>
-
-    <button class="no-print" onclick="window.print()">تحميل PDF للطباعة</button>
-
-    <div class="page-a4">
-        <script>
-            for (let i = 0; i < 6; i++) {
-                document.write(`
-                <div class="receipt-card">
-                    <div class="header-title">فاتورتك</div>
-                    
-                    <div class="tracking-section">
-                        <span>tracking:</span>
-                        <div class="tracking-input" contenteditable="true"></div>
-                    </div>
-
-                    <div class="store-logo">she.store_dz</div>
-
-                    <div class="fields-container">
-                        <div class="empty-field" contenteditable="true"></div>
-                        <div class="empty-field" contenteditable="true"></div>
-                        <div class="empty-field" contenteditable="true"></div>
-                        <div class="empty-field" contenteditable="true"></div>
-                    </div>
-
-                    <div class="payment-methods">
-                        <div><span class="circle"></span> دفع مسبق</div>
-                        <div><span class="circle"></span> دفع عند الاستلام</div>
-                    </div>
-
-                    <div class="total-box">
-                        <span>Total:</span>
-                        <span contenteditable="true">00 DA</span>
-                    </div>
-
-                    <div class="thanks-msg">شكراً لك على ثقتك ودعمك وتسوقك</div>
-                    
-                    <div class="barcode-footer"></div>
-                </div>
-                `);
-            }
-        </script>
-    </div>
-
-</body>
-</html>
+            width: 9
